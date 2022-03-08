@@ -1,7 +1,8 @@
 import requests
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
 import pandas as pd
 import streamlit as st
-from spotify_client import *
 
 timeframe= st.radio(
      "Pick a time frame",
