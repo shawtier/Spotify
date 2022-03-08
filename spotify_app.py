@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
 import streamlit as st
-from spotipy_client import *
+from spotify_client import *
 
 timeframe= st.radio(
      "Pick a time frame",
