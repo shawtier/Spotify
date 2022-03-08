@@ -1,15 +1,7 @@
 import requests
-import spotipy
-from spotipy.oauth2 import SpotifyOAuth
 import pandas as pd
 import streamlit as st
-
-SPOTIPY_CLIENT_ID="c848c34a824f4a638ea4d5852db0e645"
-SPOTIPY_CLIENT_SECRET="221e2c2c77844e0e871f913c68877275"
-SPOTIPY_REDIRECT_URI="http://127.0.0.1:9090"
-SCOPE = "user-top-read"
-
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID, client_secret=SPOTIPY_CLIENT_SECRET, redirect_uri=SPOTIPY_REDIRECT_URI, scope=SCOPE))
+from spotipy_client import *
 
 timeframe= st.radio(
      "Pick a time frame",
