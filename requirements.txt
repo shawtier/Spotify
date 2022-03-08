@@ -1,6 +1,4 @@
 spotipy
 pandas
-base64
-datetime
 requests
-streamlit == 1.7.0
+streamlit
