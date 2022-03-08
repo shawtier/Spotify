@@ -1,2 +1,4 @@
 spotipy
-streamlit == 1.7.*
+pandas
+requests
+streamlit == 1.7.0
