@@ -1,4 +1,4 @@
 spotipy
 pandas
 requests
-streamlit
+streamlit == 1.7.*
