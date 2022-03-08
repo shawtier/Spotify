@@ -1,1 +1,1 @@
-pip install freeze
+pip freeze
