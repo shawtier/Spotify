@@ -4,6 +4,8 @@ from spotipy.oauth2 import SpotifyOAuth
 import pandas as pd
 import streamlit as st
 
+st.write('Spotify Stats')
+
 timeframe= st.radio(
      "Pick a time frame",
      ('Last Month', 'Last Year', 'All Time')
