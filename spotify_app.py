@@ -25,8 +25,7 @@ elif (timeframe == 'Last Year'):
      data=sp.current_user_top_tracks(limit=10, time_range='medium_term')
 else :
      data=sp.current_user_top_tracks(limit=10,time_range='long_term')
-st.experimental_rerun()
-     
+
 def get_track_ids(time_frame):
     track_ids = []
     for song in time_frame["items"]:
