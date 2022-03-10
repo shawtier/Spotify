@@ -1,28 +1,34 @@
 
 import requests
-from spotipy_client import *
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
 import pandas as pd
 import streamlit as st
 
-SPOTIFY_CLIENT_ID = 'your_client_id'
-SPOTIFY_CLIENT_SECRET = 'your_client_secret'
+SPOTIPY_CLIENT_ID="c848c34a824f4a638ea4d5852db0e645"
+SPOTIPY_CLIENT_SECRET="221e2c2c77844e0e871f913c68877275"
+SPOTIPY_REDIRECT_URI="https://share.streamlit.io/shawtier/spotify/main/spotify_app.py"
+SCOPE = "user-top-read"
 
-spotify = SpotifyAPI(client_id, client_secret)
+sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID, client_secret=SPOTIPY_CLIENT_SECRET, redirect_uri=SPOTIPY_REDIRECT_URI, scope=SCOPE))
+
+sp_playlist = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID, client_secret=SPOTIPY_CLIENT_SECRET, redirect_uri=SPOTIPY_REDIRECT_URI, scope="playlist-modify-public ugc-image-upload"))
+
+data=sp.current_user_top_tracks()
 
 
-st.write('Spotify Stats')
 
-timeframe= st.radio(
-     "Pick a time frame",
-     ('Last Month', 'Last Year', 'All Time')
-)
 
-if (timeframe == 'Last Month'):
-     data=sp.current_user_top_tracks(limit=10,time_range='short_term')
-elif (timeframe == 'Last Year'):
-     data=sp.current_user_top_tracks(limit=10, time_range='medium_term')
-else :
-     data=sp.current_user_top_tracks(limit=10,time_range='long_term')
+
+pl=sp.current_user_playlists()
+
+
+
+
+
+
+
+artistData= sp.current_user_top_artists()
 
 def get_track_ids(time_frame):
     track_ids = []
@@ -44,10 +50,19 @@ def get_track_features(id):
     track_info = [name, album, artist, spotify_url, album_cover, preview_url]
     return track_info
 
+def get_playlist_ids(pl):
+    playlist_ids = []
+    for playlist in pl ["items"]:
+        playlist_ids.append(playlist["id"])
+    return playlist_ids
+
+plid=get_playlist_ids(pl)
+
+sp.playlist_items(plid[0])
 
 topSongsList = []
 
 for id in ids:
-    topSongsList.append(f"{get_track_features(id)[0]} by {get_track_features(id)[2]}")
+    topSongsList.append(get_track_features(id))
 
 st.write(topSongsList)
