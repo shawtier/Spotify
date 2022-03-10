@@ -2,7 +2,6 @@
 import requests
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
-import pandas as pd
 import streamlit as st
 
 SPOTIPY_CLIENT_ID="c848c34a824f4a638ea4d5852db0e645"
