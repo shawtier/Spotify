@@ -1,5 +1,4 @@
 
-from webbrowser import get
 import requests
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
@@ -55,10 +54,10 @@ data=sp.current_user_top_tracks(limit=10, offset=1, time_range= data_time_range(
 
 ids=get_track_ids(data)
 
-topSongsList=[]
+
 
 for id in ids:
-    topSongsList.append(f"{get_track_features(id)[0]} by {get_track_features(id)[2]}")
+    st.write(f"{get_track_features(id)[0]} by {get_track_features(id)[2]}")
 
-st.write(topSongsList)
+
 
