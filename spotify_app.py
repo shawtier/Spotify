@@ -20,15 +20,15 @@ timeframe= st.radio(
 
 
 if (timeframe == 'Last Month'):
-     data=sp.current_user_top_tracks(limit=10,time_range='short_term')
+     data=sp.current_user_top_tracks(time_range='short_term')
 elif (timeframe == 'Last Year'):
-     data=sp.current_user_top_tracks(limit=10, time_range='medium_term')
+     data=sp.current_user_top_tracks(time_range='medium_term')
 else :
-     data=sp.current_user_top_tracks(limit=10,time_range='long_term')
+     data=sp.current_user_top_tracks(time_range='long_term')
 
-def get_track_ids(time_frame):
+def get_track_ids(df):
     track_ids = []
-    for song in time_frame["items"]:
+    for song in df["items"]:
         track_ids.append(song["id"])
     return track_ids
 ids=get_track_ids(data)
