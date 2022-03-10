@@ -1,4 +1,5 @@
+upgrade pip
 spotipy
 pandas
 requests
-streamlit == 1.7.*
+streamlit
