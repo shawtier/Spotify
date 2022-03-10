@@ -1,4 +1,5 @@
 
+from webbrowser import get
 import requests
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
@@ -13,28 +14,17 @@ SCOPE = "user-top-read"
 
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID, client_secret=SPOTIPY_CLIENT_SECRET, redirect_uri=SPOTIPY_REDIRECT_URI, scope=SCOPE))
 st.write("SEE YOUR TOP SONGS")
-timeframe= st.radio(
-     "Pick a time frame",
-     ('Last Month', 'Last Year', 'All Time')
-)
 
 
 
-data = [ sp.current_user_top_tracks(limit=10, offset=1,time_range='short_term'), sp.current_user_top_tracks(limit=10, offset=1,time_range='medium_term'), sp.current_user_top_tracks(limit=10, offset=1,time_range='long_term')]
 
-def get_track_ids(df):
+
+
+def get_track_ids(time_frame):
     track_ids = []
-    for song in df["items"]:
+    for song in time_frame["items"]:
         track_ids.append(song["id"])
     return track_ids
-
-if (timeframe == 'Last Month'):
-    ids = get_track_ids(data[0])
-elif (timeframe == 'Last Year'):
-    ids = get_track_ids(data[1])
-else :
-    ids = get_track_ids(data[2])
-
 
 def get_track_features(id):
     meta = sp.track(id)
@@ -48,15 +38,27 @@ def get_track_features(id):
     track_info = [name, album, artist, spotify_url, album_cover, preview_url]
     return track_info
 
-topSongsList = []
+def data_time_range(timespan):
+    if (timespan == '1 Month'):
+        return 'short_term'
+    elif (timespan == '6 Months'):
+        return 'medium_term'
+    elif (timespan =='All Time'):
+        return 'long_term'
 
+timeframe= st.radio(
+     "Pick a time frame",
+     ('1 Month', '6 Months', 'All Time')
+)
 
+data=sp.current_user_top_tracks(limit=10, offset=1, time_range= data_time_range(timeframe))
+
+ids=get_track_ids(data)
+
+topSongsList=[]
 
 for id in ids:
     topSongsList.append(f"{get_track_features(id)[0]} by {get_track_features(id)[2]}")
 
-
-
 st.write(topSongsList)
 
-st.write(sp.me())
