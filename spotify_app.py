@@ -12,6 +12,17 @@ SPOTIPY_CLIENT_SECRET="221e2c2c77844e0e871f913c68877275"
 SPOTIPY_REDIRECT_URI="https://share.streamlit.io/shawtier/spotify/main/spotify_app.py"
 SCOPE = "user-top-read"
 
+
+app.secret_key = SPOTIPY_CLIENT_SECRET
+CLI_ID = SPOTIPY_CLIENT_ID
+CLI_SEC = SPOTIPY_CLIENT_SECRET
+API_BASE = 'https://accounts.spotify.com'
+
+# Make sure you add this to Redirect URIs in the setting of the application dashboard
+REDIRECT_URI = "http://share.streamlit.io/shawtier/spotify/main/spotify_app.py/api_callback"
+
+SCOPE = 'user-top-read'
+
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID, client_secret=SPOTIPY_CLIENT_SECRET, redirect_uri=SPOTIPY_REDIRECT_URI, scope=SCOPE))
 st.write('Spotify Stats')
 
