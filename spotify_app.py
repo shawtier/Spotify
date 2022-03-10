@@ -11,7 +11,7 @@ SPOTIPY_REDIRECT_URI="https://share.streamlit.io/shawtier/spotify/main/spotify_a
 SCOPE = "user-top-read"
 
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID, client_secret=SPOTIPY_CLIENT_SECRET, redirect_uri=SPOTIPY_REDIRECT_URI, scope=SCOPE))
-
+st.write("SEE YOUR TOP SONGS")
 timeframe= st.radio(
      "Pick a time frame",
      ('Last Month', 'Last Year', 'All Time')
