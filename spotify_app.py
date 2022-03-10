@@ -18,19 +18,15 @@ timeframe= st.radio(
      ('Last Month', 'Last Year', 'All Time')
 )
 
-
-if (timeframe == 'Last Month'):
-     data=sp.current_user_top_tracks(limit=10, offset=1,time_range='short_term')
-elif (timeframe == 'Last Year'):
-     data=sp.current_user_top_tracks(limit=10, offset=1,time_range='medium_term')
-else :
-     data=sp.current_user_top_tracks(limit=10, offset=1,time_range='long_term')
+data = [ sp.current_user_top_tracks(limit=10, offset=1,time_range='short_term'), sp.current_user_top_tracks(limit=10, offset=1,time_range='medium_term'), sp.current_user_top_tracks(limit=10, offset=1,time_range='long_term')]
 
 def get_track_ids(df):
     track_ids = []
     for song in df["items"]:
         track_ids.append(song["id"])
     return track_ids
+
+
 ids=get_track_ids(data)
 
 
@@ -46,11 +42,24 @@ def get_track_features(id):
     track_info = [name, album, artist, spotify_url, album_cover, preview_url]
     return track_info
 
-
 topSongsList = []
 
-for id in ids:
+if (timeframe == 'Last Month'):
+    data = data[0]
+    for id in ids:
     topSongsList.append(f"{get_track_features(id)[0]} by {get_track_features(id)[2]}")
+elif (timeframe == 'Last Year'):
+    data = data[1]
+    for id in ids:
+    topSongsList.append(f"{get_track_features(id)[0]} by {get_track_features(id)[2]}")
+else :
+    data = data[2]
+    for id in ids:
+    topSongsList.append(f"{get_track_features(id)[0]} by {get_track_features(id)[2]}")
+
+
+
+
 
 st.write(topSongsList)
 
