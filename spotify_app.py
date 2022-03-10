@@ -28,10 +28,13 @@ def get_track_ids(df):
         track_ids.append(song["id"])
     return track_ids
 
+if (timeframe == 'Last Month'):
+    ids = get_track_ids(data[0])
+elif (timeframe == 'Last Year'):
+    ids = get_track_ids(data[1])
+else :
+    ids = get_track_ids(data[2])
 
-id0=get_track_ids(data[0])
-id1=get_track_ids(data[1])
-id2=get_track_ids(data[2])
 
 def get_track_features(id):
     meta = sp.track(id)
@@ -47,17 +50,10 @@ def get_track_features(id):
 
 topSongsList = []
 
-if (timeframe == 'Last Month'):
-    for id in ids:
-     topSongsList.append(f"{get_track_features(id0)[0]} by {get_track_features(id0)[2]}")
-elif (timeframe == 'Last Year'):
-    for id in ids:
-     topSongsList.append(f"{get_track_features(id1)[0]} by {get_track_features(id1)[2]}")
-else :
-    for id in ids:
-     topSongsList.append(f"{get_track_features(id2)[0]} by {get_track_features(id2)[2]}")
 
 
+for id in ids:
+    topSongsList.append(f"{get_track_features(id)[0]} by {get_track_features(id)[2]}")
 
 
 
