@@ -7,17 +7,9 @@ client_secret = 'your_client_secret'
 
 spotify = SpotifyAPI(client_id, client_secret)
 
+Name_of_Artist = st.text_input("Artist Name")
 
-
-
-
-
-
-
-Data = spotify.search({"artist": f"{Name_of_Artist}"}, search_type="track")
-
- 
-Track_df = pd.DataFrame(need, index=None, columns=('Item', 'Artist', 'Album Name', 'Id', 'Song Name', 'Release Date', 'Popularity'))
+data = spotify.search({"artist": f"{Name_of_Artist}"}, search_type="track")
 
 access_token = spotify.access_token
 
@@ -26,36 +18,16 @@ headers = {
 }
 endpoint = "https://api.spotify.com/v1/audio-features/"
 
+need=[]
+for i, item in enumerate(data['tracks']['items']):
+    track = item['album']
+    track_id = item['id']
+    song_name = item['name']
+    popularity = item['popularity']
+    need.append((i, track['artists'][0]['name'], track['name'], track_id, song_name, track['release_date'], popularity))
+    
 
 
-Full_Data = Track_df.merge(Feat_df, left_on="Id", right_on="id")
-
-Sort_DF = Full_Data.sort_values(by=['Popularity'], ascending=False)
-
-chart_df = Sort_DF[['Artist', 'Album Name', 'Song Name', 'Release Date', 'Popularity', f'{Name_of_Feat}']]
-
-
-
-def data_time_range(timespan):
-    if (timespan == '1 Month'):
-        return 'short_term'
-    elif (timespan == '6 Months'):
-        return 'medium_term'
-    elif (timespan =='All Time'):
-        return 'long_term'
-
-timeframe= st.radio(
-     "Pick a time frame",
-     ('1 Month', '6 Months', 'All Time')
-)
-
-data=sp.current_user_top_tracks(limit=10, offset=1, time_range= data_time_range(timeframe))
-
-ids=get_track_ids(data)
-
-
-
-for id in ids:
-    st.write(f"{get_track_features(id)[0]} by {get_track_features(id)[2]}")
+st.write(need)
 
 
