@@ -1,8 +1,8 @@
 import base64
 import datetime
 from urllib.parse import urlencode
-
 import requests
+
 
 class SpotifyAPI(object):
   access_token = None
@@ -39,23 +39,6 @@ class SpotifyAPI(object):
       return {
         "grant_type": "client_credentials"
       }
-  def get_track_ids(time_frame):
-      track_ids = []
-      for song in time_frame["items"]:
-          track_ids.append(song["id"])
-      return track_ids
-
-  def get_track_features(id):
-      meta = sp.track(id)
-      # meta
-      name = meta["name"]
-      preview_url = meta["preview_url"]
-      album = meta["album"]["name"]
-      artist = meta["album"]["artists"][0]["name"]
-      spotify_url = meta["external_urls"]["spotify"]
-      album_cover = meta["album"]["images"][0]["url"]
-      track_info = [name, album, artist, spotify_url, album_cover, preview_url]
-      return track_info
   
   def perform_auth(self):
       token_url = self.token_url
@@ -103,8 +86,8 @@ class SpotifyAPI(object):
       if r.status_code not in range(200, 299):
           return {}  
       return r.json()
-
-  def search(self, query=None, operator=None, operator_query=None, search_type='artist'):
+    
+  def search(self, query=None, operator=None, operator_query=None, search_type='song'):
       if query == None:
           raise Exception("A query is required")
       if isinstance(query, dict):
@@ -117,3 +100,4 @@ class SpotifyAPI(object):
       query_params = urlencode({"q": query,"type": search_type.lower()})
       print(query_params)
       return self.base_search(query_params)
+    
