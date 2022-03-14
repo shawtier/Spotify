@@ -1,3 +1,5 @@
 spotipy
 requests
+base64
+datetime
 streamlit == 1.7.*
