@@ -1,40 +1,40 @@
 
-import requests
-import spotipy
-from spotipy.oauth2 import SpotifyOAuth
 import streamlit as st
+from spotipy_client import *
 
-SPOTIPY_CLIENT_ID="c848c34a824f4a638ea4d5852db0e645"
-SPOTIPY_CLIENT_SECRET="221e2c2c77844e0e871f913c68877275"
-SPOTIPY_REDIRECT_URI="http://127.0.0.1:9090"
-SCOPE = "user-top-read"
+client_id = 'your_client_id'
+client_secret = 'your_client_secret'
 
-
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=SPOTIPY_CLIENT_ID, client_secret=SPOTIPY_CLIENT_SECRET, redirect_uri=SPOTIPY_REDIRECT_URI, scope=SCOPE))
-st.write("SEE YOUR TOP SONGS")
+spotify = SpotifyAPI(client_id, client_secret)
 
 
 
 
 
 
-def get_track_ids(time_frame):
-    track_ids = []
-    for song in time_frame["items"]:
-        track_ids.append(song["id"])
-    return track_ids
 
-def get_track_features(id):
-    meta = sp.track(id)
-    # meta
-    name = meta["name"]
-    preview_url = meta["preview_url"]
-    album = meta["album"]["name"]
-    artist = meta["album"]["artists"][0]["name"]
-    spotify_url = meta["external_urls"]["spotify"]
-    album_cover = meta["album"]["images"][0]["url"]
-    track_info = [name, album, artist, spotify_url, album_cover, preview_url]
-    return track_info
+
+Data = spotify.search({"artist": f"{Name_of_Artist}"}, search_type="track")
+
+ 
+Track_df = pd.DataFrame(need, index=None, columns=('Item', 'Artist', 'Album Name', 'Id', 'Song Name', 'Release Date', 'Popularity'))
+
+access_token = spotify.access_token
+
+headers = {
+    "Authorization": f"Bearer {access_token}"
+}
+endpoint = "https://api.spotify.com/v1/audio-features/"
+
+
+
+Full_Data = Track_df.merge(Feat_df, left_on="Id", right_on="id")
+
+Sort_DF = Full_Data.sort_values(by=['Popularity'], ascending=False)
+
+chart_df = Sort_DF[['Artist', 'Album Name', 'Song Name', 'Release Date', 'Popularity', f'{Name_of_Feat}']]
+
+
 
 def data_time_range(timespan):
     if (timespan == '1 Month'):
@@ -57,6 +57,5 @@ ids=get_track_ids(data)
 
 for id in ids:
     st.write(f"{get_track_features(id)[0]} by {get_track_features(id)[2]}")
-
 
 
